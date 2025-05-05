@@ -13,5 +13,8 @@ sed -i "s/MaxSpareServers .*/MaxSpareServers $((${PHP_FPM_PM_START_SERVERS} * 2)
 sed -i "s/MaxRequestWorkers .*/MaxRequestWorkers ${PHP_FPM_PM_MAX_CHILDREN}/" /etc/apache2/mods-available/mpm_prefork.conf
 sed -i "s/MaxConnectionsPerChild .*/MaxConnectionsPerChild 3000/" /etc/apache2/mods-available/mpm_prefork.conf
 
+# Run queued import jobs before startup
+php /var/www/html/bin/console mautic:import
+
 # Start Apache in foreground
 exec apache2-foreground
